@@ -52,6 +52,7 @@ module.exports.finishOrder = async (req, res) => {
   console.log(data);
   console.log('signature\n');
   console.log(signature);
+  console.log(req);
   // logs.insert({ payment: req.body });
   res.send('Saved');
 };
