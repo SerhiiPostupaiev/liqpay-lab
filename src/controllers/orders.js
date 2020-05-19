@@ -1,5 +1,6 @@
 const Liqpay = require('../liqpay');
 const Product = require('../models/Product');
+const Order = require('../models/Order');
 const keys = require('../configs/liqPayConf.json');
 
 const public_key = keys.public_key;
@@ -47,11 +48,14 @@ module.exports.prepareOrders = async (req, res) => {
 module.exports.finishOrder = async (req, res) => {
   const { data, signature } = req.body;
   // const signature = liqpay.str_to_sign(private_key + data + private_key);
+  try {
+    const newOrder = new Order(data);
 
-  console.log('data\n');
-  console.log(data);
-  console.log('signature\n');
-  console.log(signature);
-  // logs.insert({ payment: req.body });
-  res.send('Saved');
+    const ord = await newOrder.save();
+
+    res.json(ord);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 };
