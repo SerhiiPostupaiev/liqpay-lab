@@ -35,7 +35,7 @@ module.exports.prepareOrders = async (req, res) => {
       currency: 'UAH',
       description: 'Items to buy - ' + description,
       order_id: Date.now(),
-      server_url: 'http://localhost:5000/api/orders/finished',
+      server_url: 'https://liqpay-lab.herokuapp.com/api/orders/finished',
     };
 
     const form = liqpay.cnb_form(jsonBuy);
