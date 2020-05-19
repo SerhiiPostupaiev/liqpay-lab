@@ -49,7 +49,7 @@ module.exports.finishOrder = async (req, res) => {
   const { data, signature } = req.body;
   const compSignature = liqpay.str_to_sign(private_key + data + private_key);
 
-  console.log(data);
+  console.log(signature);
   console.log(compSignature);
   try {
     res.json({ data });
