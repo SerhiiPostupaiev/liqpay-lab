@@ -22,6 +22,7 @@
  */
 var request = require('request');
 var crypto = require('crypto');
+var bufferFrom = require('buffer-from');
 
 /**
  * Constructor.
@@ -48,7 +49,7 @@ module.exports = function (public_key, private_key) {
     if (!params.version) throw new Error('version is null');
 
     params.public_key = public_key;
-    var data = new Buffer(JSON.stringify(params)).toString('base64');
+    var data = bufferFrom(JSON.stringify(params)).toString('base64');
     var signature = this.str_to_sign(private_key + data + private_key);
 
     request.post(
@@ -78,7 +79,7 @@ module.exports = function (public_key, private_key) {
     if (params.language) language = params.language;
 
     params = this.cnb_params(params);
-    var data = new Buffer(JSON.stringify(params)).toString('base64');
+    var data = bufferFrom(JSON.stringify(params)).toString('base64');
     var signature = this.str_to_sign(private_key + data + private_key);
 
     return (
@@ -107,7 +108,7 @@ module.exports = function (public_key, private_key) {
    */
   this.cnb_signature = function (params) {
     params = this.cnb_params(params);
-    var data = new Buffer(JSON.stringify(params)).toString('base64');
+    var data = bufferFrom(JSON.stringify(params)).toString('base64');
     return this.str_to_sign(private_key + data + private_key);
   };
 
@@ -152,7 +153,7 @@ module.exports = function (public_key, private_key) {
     if (params.language) language = params.language;
 
     params = this.cnb_params(params);
-    var data = new Buffer(JSON.stringify(params)).toString('base64');
+    var data = bufferFrom(JSON.stringify(params)).toString('base64');
     var signature = this.str_to_sign(private_key + data + private_key);
 
     return { data: data, signature: signature };
