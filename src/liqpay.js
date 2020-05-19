@@ -152,7 +152,7 @@ module.exports = function (public_key, private_key) {
     var language = 'ru';
     if (params.language) language = params.language;
 
-    // params = this.cnb_params(params);
+    params = this.cnb_params(params);
     var data = bufferFrom(JSON.stringify(params)).toString('base64');
     var signature = this.str_to_sign(private_key + data + private_key);
 
