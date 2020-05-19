@@ -1,11 +1,16 @@
 require('dotenv').config();
 
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const allowCrossDomain = require('./src/middleware/cors');
 const connectDB = require('./src/db/dbService');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(
   express.json({
