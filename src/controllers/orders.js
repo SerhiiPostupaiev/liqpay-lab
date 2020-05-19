@@ -45,10 +45,13 @@ module.exports.prepareOrders = async (req, res) => {
 };
 
 module.exports.finishOrder = async (req, res) => {
-  const { data } = req.body;
-  const signature = liqpay.str_to_sign(private_key + data + private_key);
+  const { data, signature } = req.body;
+  // const signature = liqpay.str_to_sign(private_key + data + private_key);
 
-  console.log(req.body);
+  console.log('data\n');
+  console.log(data);
+  console.log('signature\n');
+  console.log(signature);
   // logs.insert({ payment: req.body });
   res.send('Saved');
 };
