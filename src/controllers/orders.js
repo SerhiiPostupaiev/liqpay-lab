@@ -54,7 +54,9 @@ module.exports.finishOrder = async (req, res) => {
 
   try {
     if (signature === compSignature) {
-      // dec
+      let orderData = decodeURIComponent(data);
+
+      console.log(orderData);
     }
 
     res.json({ data });
