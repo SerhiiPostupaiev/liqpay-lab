@@ -15,6 +15,8 @@ module.exports.prepareOrders = async (req, res) => {
     return res.status(404).send('Empty');
   }
   await Product.find({ _id: { $in: ids } }, (err, products) => {
+    const prodList = JSON.stringify(products);
+
     const amount = products.reduce(
       (total, productItem) => total + +productItem.price,
       0
@@ -35,6 +37,7 @@ module.exports.prepareOrders = async (req, res) => {
       amount,
       currency: 'UAH',
       description: 'Items to buy - ' + description,
+      product_description: prodList,
       order_id: Date.now(),
       server_url: 'https://liqpay-lab.herokuapp.com/api/orders/finished',
     };
@@ -49,12 +52,27 @@ module.exports.finishOrder = async (req, res) => {
   const { data, signature } = req.body;
   const compSignature = liqpay.str_to_sign(private_key + data + private_key);
 
-  console.log(signature);
-  console.log(compSignature);
   try {
+    if (signature === compSignature) {
+      // dec
+    }
+
     res.json({ data });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 };
+
+function b64DecodeUnicode(str) {
+  const decodedString = decodeURIComponent(
+    atob(str)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join('')
+  );
+
+  return JSON.parse(decodedString);
+}
