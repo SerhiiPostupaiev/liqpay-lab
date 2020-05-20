@@ -21,8 +21,6 @@ ul {
 }
 
 .container__caption {
-  /* background: #26a69a;
-  color: white; */
   text-align: center;
 }
 
@@ -65,4 +63,17 @@ ul {
 
 .products__item {
   margin-bottom: 10px;
+}
+
+.container__button {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.button__item {
+  padding: 5px;
+  background: #26a69a;
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
 }
