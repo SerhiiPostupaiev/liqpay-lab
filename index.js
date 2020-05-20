@@ -25,9 +25,9 @@ app.use(express.static(__dirname + '/static'));
 app.use('/api/products', require('./src/routes/products'));
 app.use('/api/orders', require('./src/routes/orders'));
 
-app.post('/api/orders/history', (req, res) => {
-  res.sendFile(path.resolve(__dirname + '/static/orderHistory.html'));
-});
+// app.post('/api/orders/history', (req, res) => {
+//   res.sendFile(path.resolve(__dirname + '/static/orderHistory.html'));
+// });
 
 function runServer() {
   app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
