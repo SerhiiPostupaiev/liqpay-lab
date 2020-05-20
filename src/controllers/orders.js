@@ -40,6 +40,7 @@ module.exports.prepareOrders = async (req, res) => {
       product_description: prodList,
       order_id: Date.now(),
       server_url: 'https://liqpay-lab.herokuapp.com/api/orders/finished',
+      result_url: 'https://liqpay-lab.herokuapp.com/orderHistory.html',
     };
 
     const form = liqpay.cnb_form(jsonBuy);
@@ -80,6 +81,16 @@ module.exports.finishOrder = async (req, res) => {
     }
 
     res.send('invalid signature');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+};
+
+module.exports.getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.json(orders);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
