@@ -54,13 +54,16 @@ module.exports.finishOrder = async (req, res) => {
 
   try {
     if (signature === compSignature) {
+      let buff = Buffer.from(data, 'base64');
+      let text = buff.toString('utf-8');
+
       const {
         status,
         amount,
         currency,
         description,
         product_description,
-      } = b64DecodeUnicode(data);
+      } = text;
 
       const newOrder = new Order({
         status,
@@ -81,14 +84,3 @@ module.exports.finishOrder = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
-
-function b64DecodeUnicode(str) {
-  const decodedString = decodeURIComponent(
-    atob(str)
-      .split('')
-      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-      .join('')
-  );
-
-  return JSON.parse(decodedString);
-}
