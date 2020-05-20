@@ -3,19 +3,23 @@ const mongoose = require('mongoose');
 const OrderSchema = mongoose.Schema({
   status: {
     type: String,
-    // required: true,
+    required: true,
   },
   amount: {
     type: Number,
-    // required: true,
+    required: true,
   },
   currency: {
     type: String,
-    // required: true,
+    required: true,
   },
   products: {
     type: Array,
-    // required: true,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
   },
   date: {
     type: Date,

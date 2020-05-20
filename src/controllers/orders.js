@@ -54,12 +54,28 @@ module.exports.finishOrder = async (req, res) => {
 
   try {
     if (signature === compSignature) {
-      let orderData = decodeURIComponent(data);
+      const {
+        status,
+        amount,
+        currency,
+        description,
+        product_description,
+      } = b64DecodeUnicode(data);
 
-      console.log(orderData);
+      const newOrder = new Order({
+        status,
+        amount,
+        currency,
+        description,
+        products: JSON.parse(product_description),
+      });
+
+      const order = await newOrder.save();
+
+      res.json({ order });
     }
 
-    res.json({ data });
+    res.send('invalid signature');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
@@ -70,9 +86,7 @@ function b64DecodeUnicode(str) {
   const decodedString = decodeURIComponent(
     atob(str)
       .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
+      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
       .join('')
   );
 
