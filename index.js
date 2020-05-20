@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const allowCrossDomain = require('./src/middleware/cors');
 const connectDB = require('./src/db/dbService');
@@ -25,7 +26,7 @@ app.use('/api/products', require('./src/routes/products'));
 app.use('/api/orders', require('./src/routes/orders'));
 
 app.post('/api/orders/history', (req, res) => {
-  res.sendFile('./static/ordersHistory.html');
+  res.sendFile(path.resolve(__dirname + '/static/orderHistory.html'));
 });
 
 function runServer() {
