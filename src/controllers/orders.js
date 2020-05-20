@@ -70,7 +70,7 @@ module.exports.finishOrder = async (req, res) => {
         amount,
         currency,
         description,
-        products: JSON.parse(product_description),
+        products: product_description,
       });
 
       const order = await newOrder.save();
