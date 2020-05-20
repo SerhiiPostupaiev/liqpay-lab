@@ -56,6 +56,7 @@ module.exports.finishOrder = async (req, res) => {
     if (signature === compSignature) {
       let buff = Buffer.from(data, 'base64');
       let text = buff.toString('utf-8');
+      text = JSON.parse(text);
 
       const {
         status,
@@ -70,7 +71,7 @@ module.exports.finishOrder = async (req, res) => {
         amount,
         currency,
         description,
-        products: product_description,
+        products: JSON.parse(product_description),
       });
 
       const order = await newOrder.save();
