@@ -24,7 +24,7 @@ app.use(express.static(__dirname + '/static'));
 app.use('/api/products', require('./src/routes/products'));
 app.use('/api/orders', require('./src/routes/orders'));
 
-app.get('/api/orders/history', (req, res) => {
+app.post('/api/orders/history', (req, res) => {
   res.sendFile('./static/ordersHistory.html');
 });
 
