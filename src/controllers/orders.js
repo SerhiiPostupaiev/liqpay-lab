@@ -40,7 +40,7 @@ module.exports.prepareOrders = async (req, res) => {
       product_description: prodList,
       order_id: Date.now(),
       server_url: 'https://liqpay-lab.herokuapp.com/api/orders/finished',
-      result_url: 'https://liqpay-lab.herokuapp.com/orderHistory.html',
+      result_url: 'https://liqpay-lab.herokuapp.com/api/orders/history',
     };
 
     const form = liqpay.cnb_form(jsonBuy);
