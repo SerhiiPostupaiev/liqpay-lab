@@ -4,7 +4,9 @@ async function loadHistory() {
   const orderList = document.getElementById('list');
 
   const response = await fetch('/api/orders');
-  const ordersData = await response.json();
+  let ordersData = await response.json();
+
+  ordersData = ordersData.sort((a, b) => new Date(b.date) - new Date(a.date));
 
   if (ordersData.length === 0) {
     orderList.textContent = 'No orders';
@@ -90,8 +92,13 @@ function formDate(dateStr) {
 
   const date = new Date(dateStr);
 
+  const hours = date.getHours().toString();
+  const minutes = date.getMinutes().toString();
+
   return `${date.getDate()} ${monthName[date.getMonth()].substring(
     0,
     3
-  )}, ${date.getFullYear()}`;
+  )}, ${date.getFullYear()} | ${hours.length === 1 ? '0' + hours : hours} : ${
+    minutes.length === 1 ? '0' + minutes : minutes
+  }`;
 }
