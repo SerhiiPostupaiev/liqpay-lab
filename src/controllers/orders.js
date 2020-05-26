@@ -38,8 +38,8 @@ module.exports.prepareOrders = async (req, res) => {
       currency: 'UAH',
       description: 'Items to buy - ' + description,
       product_description: prodList,
-      // order_id: Date.now(),
-      order_id: 23,
+      order_id: Date.now(),
+      // order_id: 23,
       server_url: 'https://liqpay-lab.herokuapp.com/api/orders/finished',
       result_url: 'https://liqpay-lab.herokuapp.com/orderHistory.html',
     };
