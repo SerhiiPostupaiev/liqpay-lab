@@ -13,6 +13,11 @@ const OrderSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  order_id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   products: {
     type: Array,
     required: true,

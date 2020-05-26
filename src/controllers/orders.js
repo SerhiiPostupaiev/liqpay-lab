@@ -51,7 +51,7 @@ module.exports.prepareOrders = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server error');
+    // res.status(500).send('Server error');
   }
 };
 
@@ -71,14 +71,24 @@ module.exports.finishOrder = async (req, res) => {
         amount,
         currency,
         description,
+        order_id,
         product_description,
       } = text;
+
+      // check if order_id exists
+
+      let checkOrder = await Order.findOne({ order_id });
+
+      if (checkOrder) {
+        return res.status(400).json({ msg: 'Such an order_id already exists' });
+      }
 
       const newOrder = new Order({
         status,
         amount,
         currency,
         description,
+        order_id,
         products: JSON.parse(product_description),
       });
 
