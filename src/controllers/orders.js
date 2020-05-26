@@ -59,6 +59,7 @@ module.exports.finishOrder = async (req, res) => {
       let buff = Buffer.from(data, 'base64');
       let text = buff.toString('utf-8');
       text = JSON.parse(text);
+      console.log(text);
 
       const {
         status,
