@@ -90,7 +90,7 @@ module.exports.finishOrder = async (req, res) => {
     res.send('invalid signature');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Server error');
+    // res.status(500).send('Server error');
   }
 };
 
