@@ -14,40 +14,45 @@ module.exports.prepareOrders = async (req, res) => {
   if (!ids.length) {
     return res.status(404).send('Empty');
   }
-  await Product.find({ _id: { $in: ids } }, (err, products) => {
-    const prodList = JSON.stringify(products);
+  try {
+    await Product.find({ _id: { $in: ids } }, (err, products) => {
+      const prodList = JSON.stringify(products);
 
-    const amount = products.reduce(
-      (total, productItem) => total + +productItem.price,
-      0
-    );
+      const amount = products.reduce(
+        (total, productItem) => total + +productItem.price,
+        0
+      );
 
-    const description = products
-      .reduce(
-        (total, productItem) =>
-          `${total}, ` + `${productItem.name}: ${productItem.price}UAH`,
-        ''
-      )
-      .slice(2);
+      const description = products
+        .reduce(
+          (total, productItem) =>
+            `${total}, ` + `${productItem.name}: ${productItem.price}UAH`,
+          ''
+        )
+        .slice(2);
 
-    const jsonBuy = {
-      public_key,
-      version: '3',
-      action: 'pay',
-      amount,
-      currency: 'UAH',
-      description: 'Items to buy - ' + description,
-      product_description: prodList,
-      order_id: Date.now(),
-      // order_id: 23,
-      server_url: 'https://liqpay-lab.herokuapp.com/api/orders/finished',
-      result_url: 'https://liqpay-lab.herokuapp.com/orderHistory.html',
-    };
+      const jsonBuy = {
+        public_key,
+        version: '3',
+        action: 'pay',
+        amount,
+        currency: 'UAH',
+        description: 'Items to buy - ' + description,
+        product_description: prodList,
+        order_id: Date.now(),
+        // order_id: 23,
+        server_url: 'https://liqpay-lab.herokuapp.com/api/orders/finished',
+        result_url: 'https://liqpay-lab.herokuapp.com/orderHistory.html',
+      };
 
-    const form = liqpay.cnb_form(jsonBuy);
+      const form = liqpay.cnb_form(jsonBuy);
 
-    res.json({ form });
-  });
+      res.json({ form });
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 };
 
 module.exports.finishOrder = async (req, res) => {
